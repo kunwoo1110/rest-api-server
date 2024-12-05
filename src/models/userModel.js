@@ -66,5 +66,41 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
+const DeviceSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['smartphone', 'tablet', 'laptop', 'desktop', 'other']
+  },
+  serialNumber: {
+    type: String,
+    unique: true,
+    trim: true
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['active', 'inactive', 'lost'],
+    default: 'active'
+  },
+  purchaseDate: {
+    type: Date
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
 module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Device', DeviceSchema);
 // module.exports = new User();
